@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }}</title>
+  <style>
+   :root{font-family:system-ui,sans-serif;color:#184641;background:#eff6f2}
+   body{max-width:920px;margin:auto;padding:36px 24px}
+   nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:50px}
+   nav a{color:#184641;margin-left:20px;font-weight:600}
+   main{padding:76px 50px;background:#fff;border-radius:24px;border:1px solid #d9e8df}
+   main p{font-size:22px;line-height:1.5;max-width:610px} h1{font-size: clamp(36px,6vw,68px);margin:0;letter-spacing:-.04em;line-height:1.04}
+  </style>
+</head>
+<body>
+<nav><strong>Craft Translation Demo</strong><div><a href="/">Home</a><a href="/about">About us</a></div></nav>
+<main>{% block content %}{% endblock %}</main>
+</body>
+</html>

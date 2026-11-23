@@ -1,0 +1,4 @@
+{% extends '_layout.twig' %}
+{% set title = 'Private content' %}
+{% do craft.app.response.setNoCacheHeaders() %}
+{% block content %}<h1>Private content</h1>{% endblock %}

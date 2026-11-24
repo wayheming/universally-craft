@@ -12,7 +12,7 @@ The plugin is free to install. A [Universally](https://universally.com/) account
 
 ```sh
 composer config repositories.universally-craft vcs https://github.com/wayheming/universally-craft
-composer require universally/craft-universally:^0.1
+composer require universally/craft-universally:^0.2
 php craft plugin/install universally
 ```
 

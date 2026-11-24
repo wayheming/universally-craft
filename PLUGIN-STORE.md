@@ -24,6 +24,7 @@ Universally translates the public pages of your Craft site. Connect a Universall
 
 The plugin is free to install. A [Universally](https://universally.com/) account is required to translate your site. The [Free plan](https://universally.com/pricing/) includes up to 2,000 translated words for one website and one target language.
 
+- **Connect in Craft.** Paste your Universally project key and record the site owner’s consent in the plugin settings.
 - **Translated HTML at its own URL.** Craft serves the translated page at a path such as `/fr/about`. The translated text is present when the page loads, including when JavaScript is disabled.
 - **Keep your Twig templates and domain.** The plugin renders your source templates in Craft and serves translations on the same domain.
 - **Let visitors switch languages.** The Universally language switcher opens the translation of the page the visitor is viewing.
@@ -36,6 +37,6 @@ After the site owner authorizes the connection, the plugin sends rendered public
 
 ## Screenshot captions
 
-1. Universally installed in the Craft control panel.
-2. Connect a Craft project to Universally and choose its target languages.
+1. Open Universally settings from the Craft plugin list.
+2. Connect Universally with the project key and the site owner’s consent.
 3. A French page at its own URL with the Universally language switcher.

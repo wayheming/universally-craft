@@ -2,9 +2,11 @@
 
 The Craft plugin translates public Twig pages on the server. Your source pages keep their URLs, and enabled languages appear under their configured prefixes, for example `/fr/about`. The package supports Craft CMS 5.8 and newer 5.x releases and requires PHP 8.2 or newer.
 
+The plugin is free to install. A [Universally](https://universally.com/) account is required to translate your site. The [Free plan](https://universally.com/pricing/) includes up to 2,000 translated words for one website and one target language.
+
 ## Install the plugin
 
-**Craft Plugin Store.** Once the listing is available, search for **Universally** in the Craft control panel’s **Plugin Store** and select **Install**.
+**Craft Plugin Store.** Open the [Universally listing](https://plugins.craftcms.com/universally?craft5=) or search for **Universally** in the Craft control panel’s **Plugin Store** and select **Install**.
 
 **Composer.** Run these commands from your Craft project root:
 

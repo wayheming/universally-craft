@@ -2,7 +2,7 @@
 
 ## Name and category
 
-- **Name:** Universally
+- **Name:** Universally - AI Translation
 - **Handle:** `universally`
 - **Composer package:** `universally/craft-universally`
 - **Category:** Localization

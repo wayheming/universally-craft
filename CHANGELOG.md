@@ -1,5 +1,11 @@
 # Release Notes for Universally
 
+## 0.2.1 - 2026-11-24
+
+### Changed
+
+- Rename the plugin to Universally - AI Translation in Craft.
+
 ## 0.2.0 - 2026-11-24
 
 ### Added

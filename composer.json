@@ -34,7 +34,7 @@
     },
     "extra": {
         "handle": "universally",
-        "name": "Universally",
+        "name": "Universally - AI Translation",
         "class": "Universally\\CraftCms\\Plugin",
         "documentationUrl": "https://github.com/wayheming/universally-craft#readme",
         "developer": "Universally",

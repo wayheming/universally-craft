@@ -1,4 +1,4 @@
-# Universally for Craft CMS
+# Universally - AI Translation for Craft CMS
 
 The Craft plugin translates public Twig pages on the server. Your source pages keep their URLs, and enabled languages appear under their configured prefixes, for example `/fr/about`. The package supports Craft CMS 5.8 and newer 5.x releases and requires PHP 8.2 or newer.
 
@@ -6,7 +6,7 @@ The plugin is free to install. A [Universally](https://universally.com/) account
 
 ## Install the plugin
 
-**Craft Plugin Store.** Open the [Universally listing](https://plugins.craftcms.com/universally?craft5=) or search for **Universally** in the Craft control panel’s **Plugin Store** and select **Install**.
+**Craft Plugin Store.** Open the [Universally listing](https://plugins.craftcms.com/universally?craft5=) or search for **Universally - AI Translation** in the Craft control panel’s **Plugin Store** and select **Install**.
 
 **Composer.** Run these commands from your Craft project root:
 
@@ -20,7 +20,7 @@ php craft plugin/install universally
 
 1. Create a **Craft CMS** project in Universally using the public hostname of your Craft site. Select the source language and add the languages you want to offer. During preview, the Craft CMS project type is available to preview accounts.
 2. Copy the unified project API key from the project’s **Setup** page.
-3. In the Craft control panel, open **Settings → Plugins → Universally → Settings**. Paste the API key, review [what the plugin sends](#content-transfer-and-privacy), and check the consent box with the site owner’s express permission. Select **Save**.
+3. In the Craft control panel, open **Settings → Plugins → Universally - AI Translation → Settings**. Paste the API key, review [what the plugin sends](#content-transfer-and-privacy), and check the consent box with the site owner’s express permission. Select **Save**.
 4. Open your public site in a new browser session. Choose a language in the switcher or visit a translated path directly, such as `/fr/about`.
 
 Craft encrypts the saved key in its database using the installation’s security key and primary site URL. To keep the saved key, leave the field blank. To rotate the key, paste the replacement and save.

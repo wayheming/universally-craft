@@ -2,7 +2,7 @@
 {% extends '_layouts/cp' %}
 {% import '_includes/forms.twig' as forms %}
 
-{% set title = 'Universally' %}
+{% set title = pluginName %}
 {% set fullPageForm = not readOnly and not environmentManaged %}
 {% set crumbs = [
     {label: 'Settings'|t('app'), url: cpUrl('settings')},

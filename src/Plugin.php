@@ -41,7 +41,7 @@ final class Plugin extends CraftPlugin
         }
     }
 
-    /** Renders the administrator’s connection form without sending the saved key to the browser. */
+    /** Renders the connection form with the installed plugin name and keeps the saved key server-side. */
     public function getSettingsResponse(): mixed
     {
         $environmentManaged = ConnectionSettings::usesEnvironment();
@@ -49,6 +49,7 @@ final class Plugin extends CraftPlugin
         $hasKey = ConnectionSettings::storedKey($settings) !== null;
 
         return Craft::$app->controller->renderTemplate('universally/settings', [
+            'pluginName' => $this->name,
             'environmentManaged' => $environmentManaged,
             'readOnly' => false,
             'hasKey' => $hasKey,
@@ -56,10 +57,11 @@ final class Plugin extends CraftPlugin
         ]);
     }
 
-    /** Explains how to configure the connection on a deployment with changes disabled. */
+    /** Shows the installed plugin name and environment setup guidance when settings are read-only. */
     public function getReadOnlySettingsResponse(): mixed
     {
         return Craft::$app->controller->renderTemplate('universally/settings', [
+            'pluginName' => $this->name,
             'environmentManaged' => ConnectionSettings::usesEnvironment(),
             'readOnly' => true,
         ]);

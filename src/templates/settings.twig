@@ -1,0 +1,38 @@
+{% requireAdmin false %}
+{% extends '_layouts/cp' %}
+{% import '_includes/forms.twig' as forms %}
+
+{% set title = 'Universally' %}
+{% set fullPageForm = not readOnly and not environmentManaged %}
+{% set crumbs = [
+    {label: 'Settings'|t('app'), url: cpUrl('settings')},
+    {label: 'Plugins'|t('app'), url: cpUrl('settings/plugins')},
+] %}
+
+{% block content %}
+    {% if readOnly %}
+        <p>{{ 'Craft administrative changes are disabled in this environment. Manage the connection through environment variables.'|t('universally') }}</p>
+    {% elseif environmentManaged %}
+        <p>{{ 'This connection is configured through environment variables. To manage it here, remove UNIVERSALLY_API_KEY and UNIVERSALLY_ALLOW_CONTENT_TRANSFER from the server environment.'|t('universally') }}</p>
+    {% else %}
+        {{ actionInput('universally/connection/save') }}
+        <p>{{ 'Copy the API key from Setup in your Universally project.'|t('universally') }}</p>
+
+        {{ forms.passwordField({
+            label: 'API key'|t('universally'),
+            name: 'apiKey',
+            id: 'universally-api-key',
+            autocomplete: 'new-password',
+            instructions: hasKey ? 'An API key is saved. Leave this field blank to keep it.'|t('universally') : 'Paste your Universally project API key.'|t('universally'),
+        }) }}
+
+        {{ forms.checkboxField({
+            label: 'I authorize Universally to receive public page content for translation.'|t('universally'),
+            name: 'allowContentTransfer',
+            id: 'universally-allow-content-transfer',
+            value: '1',
+            checked: allowed,
+            instructions: 'The site owner must approve sending rendered public page HTML, page URLs, and target languages to Universally.'|t('universally'),
+        }) }}
+    {% endif %}
+{% endblock %}

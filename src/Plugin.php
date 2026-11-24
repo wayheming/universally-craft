@@ -16,46 +16,81 @@ use yii\base\Event;
 /** Serves translated pages through the Craft site on language-prefixed URLs. */
 final class Plugin extends CraftPlugin
 {
+    /** Bumps the database schema for installations upgrading from 0.1. */
+    public string $schemaVersion = '1.1.0';
+
+    /** Adds a Settings link in the Craft plugin list. */
+    public bool $hasCpSettings = true;
+
+    /** Shows configuration guidance when Craft has locked the control panel settings. */
+    public bool $hasReadOnlyCpSettings = true;
+
     /** Whether Craft rendered a site page for the current response. */
     private bool $renderedSitePage = false;
 
-    /** Registers translation hooks after the site owner opts in and supplies a unified key. */
+    /** Registers the storefront hook that checks permission before using a project key. */
     public function init(): void
     {
         parent::init();
 
         $app = Craft::$app;
-        if (!$app instanceof Application || App::env('UNIVERSALLY_ALLOW_CONTENT_TRANSFER') !== true) {
-            return;
+        if ($app instanceof Application) {
+            $app->on(Application::EVENT_BEFORE_REQUEST, function () use ($app): void {
+                $this->preparePage($app);
+            });
         }
+    }
 
-        $key = trim((string)App::env('UNIVERSALLY_API_KEY'));
-        if (!preg_match('/^[a-f0-9]{64}$/Di', $key)) {
-            return;
-        }
+    /** Renders the administrator’s connection form without sending the saved key to the browser. */
+    public function getSettingsResponse(): mixed
+    {
+        $environmentManaged = ConnectionSettings::usesEnvironment();
+        $settings = $environmentManaged ? [] : ConnectionSettings::stored();
+        $hasKey = ConnectionSettings::storedKey($settings) !== null;
 
-        $client = new ApiClient(strtolower($key));
-        $app->on(Application::EVENT_BEFORE_REQUEST, function () use ($app, $client, $key): void {
-            $this->preparePage($app, $client, substr(strtolower($key), 0, 32));
-        });
+        return Craft::$app->controller->renderTemplate('universally/settings', [
+            'environmentManaged' => $environmentManaged,
+            'readOnly' => false,
+            'hasKey' => $hasKey,
+            'allowed' => $hasKey && ConnectionSettings::isAllowed($settings),
+        ]);
+    }
+
+    /** Explains how to configure the connection on a deployment with changes disabled. */
+    public function getReadOnlySettingsResponse(): mixed
+    {
+        return Craft::$app->controller->renderTemplate('universally/settings', [
+            'environmentManaged' => ConnectionSettings::usesEnvironment(),
+            'readOnly' => true,
+        ]);
     }
 
     /** Resolves a language prefix before Craft matches the original template or entry. */
-    private function preparePage(Application $app, ApiClient $client, string $publicKey): void
+    private function preparePage(Application $app): void
     {
         $request = $app->getRequest();
+        if (!$this->isPublicRequest($app, $request)) {
+            return;
+        }
+
         $site = $app->getSites()->getCurrentSite();
         $origin = rtrim((string)$site->getBaseUrl(), '/');
         if (
             $app->getConfig()->getGeneral()->headlessMode ||
             $site->id !== $app->getSites()->getPrimarySite()->id ||
             !preg_match('~^https?://[^/?#@]+$~iD', $origin) ||
-            strcasecmp($request->getHostInfo(), $origin) !== 0 ||
-            !$this->isPublicRequest($app, $request)
+            strcasecmp($request->getHostInfo(), $origin) !== 0
         ) {
             return;
         }
 
+        $key = ConnectionSettings::activeKey();
+        if ($key === null) {
+            return;
+        }
+
+        $client = new ApiClient($key);
+        $publicKey = substr($key, 0, 32);
         $pathParts = explode('/', $request->getFullPath(), 2);
         [$prefix, $path] = [$pathParts[0], $pathParts[1] ?? ''];
         $variant = null;

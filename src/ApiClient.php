@@ -22,10 +22,20 @@ final class ApiClient
     ) {
     }
 
+    /** Returns the domain attached to a valid project key without sending page content. */
+    public function verifiedProjectDomain(): ?string
+    {
+        $data = $this->request('GET', $this->apiBase() . '/connect/keys/verify', 2);
+        $domain = $data['domain'] ?? null;
+        return ($data['valid'] ?? false) === true && is_string($domain) && $domain !== ''
+            ? strtolower($domain)
+            : null;
+    }
+
     /** Returns configured, enabled language URLs mapped to their translator variants. */
     public function locales(): array
     {
-        $base = rtrim((string)(App::env('UNIVERSALLY_API_URL') ?: 'https://api.universally.com'), '/');
+        $base = $this->apiBase();
         $cache = Craft::$app->getCache();
         $cacheKey = ['universally-craft-languages', $base, hash('sha256', $this->key)];
         $cached = $cache->get($cacheKey);
@@ -52,6 +62,12 @@ final class ApiClient
 
         $cache->set($cacheKey, $locales, self::LANGUAGE_CACHE_SECONDS);
         return $locales;
+    }
+
+    /** Resolves the API origin, including the local integration-test override. */
+    private function apiBase(): string
+    {
+        return rtrim((string)(App::env('UNIVERSALLY_API_URL') ?: 'https://api.universally.com'), '/');
     }
 
     /** Translates a full page and returns null when a translated document is unavailable. */
